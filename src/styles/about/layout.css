@@ -1,0 +1,142 @@
+.about-body {
+  height: calc(100vh - 118px);
+  min-height: min(680px, calc(100vh - 118px));
+  padding: 0;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 76% 0%, rgba(255, 235, 249, 0.28), transparent 34%),
+    #fff;
+}
+
+.about-shell {
+  display: grid;
+  grid-template-columns: 190px minmax(0, 1fr);
+  height: 100%;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.24) transparent;
+  color: var(--panel-text);
+}
+
+.about-shell::-webkit-scrollbar {
+  width: 9px;
+}
+
+.about-shell::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.18);
+  border: 3px solid transparent;
+  border-radius: 999px;
+  background-clip: padding-box;
+}
+
+.about-sidebar {
+  padding: 52px 22px 34px 38px;
+  background: transparent;
+}
+
+.about-identity {
+  display: grid;
+  gap: 12px;
+  padding: 0;
+  margin: 0 0 54px;
+}
+
+.about-identity > span {
+  display: grid;
+  width: 20px;
+  height: 20px;
+  place-items: center;
+  color: #e6818d;
+  border: 1px solid rgba(230, 129, 141, 0.34);
+  border-radius: 3px;
+  font-size: 14px;
+}
+
+.about-identity strong {
+  color: #374151;
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.about-identity p {
+  max-width: 260px;
+  color: #9ca3af;
+  font-size: 22px;
+  line-height: 1.48;
+}
+
+.section-eyebrow {
+  margin: 0;
+  color: #9ca3af;
+  /* font-family: var(--font-mono); */
+  font-size: 30px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  /* text-transform: uppercase; */
+}
+
+.about-sidebar nav {
+  position: sticky;
+  top: 52px;
+  display: grid;
+  gap: 8px;
+  margin-top: 0;
+}
+
+.about-sidebar button {
+  position: relative;
+  padding: 6px 0;
+  color: #9ca3af;
+  font-size: 19px;
+  font-weight: 500;
+  line-height: 1;
+  text-align: left;
+  transition:
+    color 180ms ease,
+    transform 180ms ease;
+}
+
+.about-sidebar button:hover,
+.about-sidebar button.is-active {
+  color: var(--about-accent);
+  transform: translateX(2px);
+}
+
+.about-content {
+  min-width: 0;
+}
+
+.about-section {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 15px;
+  padding: 74px 92px 96px 0;
+  scroll-margin-top: 28px;
+}
+
+.shelf-section {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.about-section + .about-section {
+  border-top: 1px solid rgba(43, 41, 38, 0.055);
+}
+
+.section-heading {
+  align-self: start;
+  display: block;
+  grid-column: 1 / -1;
+  width: 100%;
+}
+
+.section-description {
+  margin: 10px 0 0;
+  color: #9ca3af;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0;
+}
+

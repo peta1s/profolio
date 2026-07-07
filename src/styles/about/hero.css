@@ -1,0 +1,321 @@
+.about-hero {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(470px, 520px) minmax(0, 560px);
+  gap: 72px;
+  padding-top: 56px;
+  min-height: 680px;
+  overflow: visible;
+}
+
+.about-camera-stage {
+  position: relative;
+  min-height: 600px;
+}
+
+.instant-camera {
+  --slot-x: 32%;
+  --slot-y: calc(100% - 74px);
+  --slot-width: 37%;
+  --slot-height: 10px;
+  --paper-width: 190px;
+  --paper-height: calc(var(--paper-width) * 236 / 193);
+  --print-duration: 3.15s;
+  --paper-final-rotate: 5deg;
+  position: absolute;
+  top: 18px;
+  left: 20px;
+  z-index: 3;
+  width: 500px;
+  height: 370px;
+  transform-origin: 37% 56%;
+}
+
+.instant-camera.is-shuttering {
+  animation: camera-shutter-feedback 480ms cubic-bezier(0.2, 0.86, 0.28, 1);
+}
+
+.camera-image {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  filter: drop-shadow(0 14px 22px rgba(0, 0, 0, 0.24));
+}
+
+.paper-window {
+  position: absolute;
+  left: calc(var(--slot-x) + (var(--slot-width) - var(--paper-width)) / 2 - 28px);
+  top: var(--slot-y);
+  z-index: 2;
+  width: calc(var(--paper-width) + 56px);
+  height: calc(var(--paper-height) * 1.24);
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.paper-window.is-paper-free {
+  overflow: visible;
+  pointer-events: auto;
+}
+
+.camera-shutter-hotspot {
+  position: absolute;
+  top: 49%;
+  left: 33%;
+  z-index: 4;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  transition:
+    transform 140ms ease,
+    filter 140ms ease;
+}
+
+.camera-shutter-hotspot:hover,
+.camera-shutter-hotspot:focus-visible {
+  outline: none;
+  transform: translateY(-1px) scale(1.04);
+}
+
+.camera-shutter-hotspot:focus-visible {
+  box-shadow: 0 0 0 2px rgba(255, 80, 80, 0.5);
+}
+
+.camera-shutter-hotspot:active {
+  transform: translateY(2px) scale(0.96);
+}
+
+.printed-photo {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  box-sizing: border-box;
+  width: var(--paper-width);
+  height: var(--paper-height);
+  padding: 3% 3% 21.6%;
+  overflow: hidden;
+  border-radius: 4px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(246, 246, 240, 0.99)),
+    #f9f8f1;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.16),
+    0 4px 5px rgba(0, 0, 0, 0.24),
+    0 2px 2px rgba(0, 0, 0, 0.18),
+    inset 0 0 0 1px rgba(0, 0, 0, 0.06),
+    inset 0 -2px 3px rgba(0, 0, 0, 0.035);
+  opacity: 0;
+  transform: translate(-50%, -100%) rotate(0deg);
+  transform-origin: top center;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.printed-photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(110deg, rgba(255, 255, 255, 0.42), transparent 28% 72%, rgba(0, 0, 0, 0.04)),
+    radial-gradient(circle at 100% 0%, rgba(0, 0, 0, 0.07), transparent 36%),
+    repeating-linear-gradient(45deg, rgba(0, 0, 0, 0.018) 0 1px, transparent 1px 5px);
+  mix-blend-mode: multiply;
+  opacity: 0.5;
+}
+
+.printed-photo.is-printing {
+  animation: polaroid-eject var(--print-duration) both;
+}
+
+.printed-photo.is-free {
+  animation: none;
+  opacity: 1;
+  transform: translate(
+      calc(-46.5% + var(--drag-x, 0px)),
+      calc(14% + var(--drag-y, 0px))
+    )
+    rotate(var(--paper-final-rotate));
+  pointer-events: auto;
+  cursor: grab;
+  touch-action: none;
+}
+
+.printed-photo.is-dragging {
+  cursor: grabbing;
+}
+
+.printed-photo-image {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: #d8d9ce;
+  box-shadow: inset 0 0 0 1px rgba(28, 25, 20, 0.16);
+}
+
+.printed-photo-image img {
+  position: absolute;
+  top: -6.1%;
+  left: -5.8%;
+  width: 114.7%;
+  height: auto;
+  max-width: none;
+  filter: saturate(0.96) contrast(0.98);
+}
+
+.about-copy-card {
+  position: relative;
+  z-index: 2;
+  align-self: start;
+  min-height: 340px;
+  padding-top: 58px;
+  opacity: 1;
+  transform: translateY(18px);
+  transition:
+    transform 760ms cubic-bezier(0.2, 0.85, 0.2, 1) 2.05s;
+}
+
+.about-copy-card,
+.about-hero .about-copy-card {
+  max-width: 640px;
+}
+
+.about-hero .about-copy-card {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.paper-window.is-paper-free + .about-copy-card,
+.about-copy-card.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.about-copy-card h1 {
+  margin: 10px 0 10px;
+  color: #4b5563;
+  font-size: 38px;
+  font-weight: 600;
+  line-height: 1.04;
+}
+
+.about-hero-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 22px 0;
+  color: #9aa3b2;
+  font-size: 21px;
+  font-weight: 500;
+  line-height: 1.45;
+}
+
+.about-hero-meta span:last-child {
+  min-width: 0;
+  font-size: 15px;
+}
+
+.about-hero-meta-icon {
+  display: inline-flex;
+  flex: 0 0 auto;
+  width: 21px;
+  height: 21px;
+  color: currentColor;
+}
+
+.about-hero-meta-icon svg {
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.about-hero-meta-icon svg path:first-child {
+  fill: currentColor;
+  stroke: none;
+}
+
+.about-text-flow {
+  position: relative;
+}
+
+.about-text-flow p {
+  color: #4b5563;
+  font-size: 19px;
+  line-height: 1.72;
+}
+
+.about-text-flow::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+.photo-flow-shape {
+  display: block;
+  border-radius: 999px;
+  shape-margin: 16px;
+  pointer-events: none;
+}
+
+.photo-flow-shape.is-left {
+  float: left;
+  shape-outside: ellipse(52% 48% at 50% 50%);
+}
+
+.photo-flow-shape.is-right {
+  float: right;
+  shape-outside: ellipse(52% 48% at 50% 50%);
+}
+
+@keyframes polaroid-eject {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -100%) rotate(0deg);
+    animation-timing-function: linear;
+  }
+  62% {
+    opacity: 1;
+    transform: translate(-50%, 0) rotate(0deg);
+    animation-timing-function: cubic-bezier(0.18, 0.76, 0.2, 1);
+  }
+  78% {
+    opacity: 1;
+    transform: translate(-48.5%, 8%) rotate(calc(var(--paper-final-rotate) * 0.42));
+    animation-timing-function: cubic-bezier(0.22, 0.74, 0.24, 1);
+  }
+  90% {
+    opacity: 1;
+    transform: translate(-46%, 17%) rotate(calc(var(--paper-final-rotate) * 1.12));
+    animation-timing-function: ease-out;
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-46.5%, 14%) rotate(var(--paper-final-rotate));
+  }
+}
+
+@keyframes camera-shutter-feedback {
+  0% {
+    transform: rotate(0deg);
+  }
+  34% {
+    transform: rotate(-3.2deg);
+  }
+  66% {
+    transform: rotate(1.35deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}

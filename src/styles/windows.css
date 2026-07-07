@@ -1,0 +1,147 @@
+.window {
+  position: fixed;
+  top: var(--top);
+  left: var(--left);
+  z-index: 40;
+  display: none;
+  width: min(var(--width), calc(100vw - 28px));
+  overflow: hidden;
+  color: var(--panel-text);
+  background: var(--window-bg);
+  border: 1px solid var(--window-line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-window);
+  backdrop-filter: blur(16px) saturate(1.12);
+  -webkit-backdrop-filter: blur(16px) saturate(1.12);
+}
+
+.window.active {
+  display: block;
+}
+
+.window.dragging {
+  user-select: none;
+}
+
+.window-titlebar {
+  display: grid;
+  grid-template-columns: 70px 1fr 70px;
+  align-items: center;
+  height: 34px;
+  padding: 0 10px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.82), rgba(232, 232, 229, 0.76));
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  cursor: grab;
+}
+
+.window.dragging .window-titlebar {
+  cursor: grabbing;
+}
+
+.window-titlebar strong {
+  grid-column: 2;
+  color: rgba(0, 0, 0, 0.66);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1;
+  text-align: center;
+}
+
+.traffic-lights {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.traffic-lights button,
+.traffic-lights span {
+  display: block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.16);
+}
+
+.traffic-lights button {
+  background: var(--red);
+}
+
+.traffic-lights span:nth-child(2) {
+  background: var(--yellow);
+}
+
+.traffic-lights span:nth-child(3) {
+  background: var(--green);
+}
+
+.window-body {
+  padding: 22px;
+  color: var(--panel-text);
+  font-size: 15px;
+  line-height: 1.62;
+}
+
+.device-window-close {
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  z-index: 20;
+  display: grid;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  color: rgba(31, 41, 55, 0.68);
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow:
+    0 10px 24px rgba(15, 23, 42, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.88);
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition:
+    background 150ms ease,
+    color 150ms ease,
+    transform 150ms ease;
+}
+
+.device-window-close:hover,
+.device-window-close:focus-visible {
+  outline: none;
+  color: #111827;
+  background: #fff;
+  transform: scale(1.06);
+}
+
+.window-body h1,
+.window-body h2,
+.window-body p {
+  margin: 0;
+  letter-spacing: 0;
+}
+
+.window-body h1 {
+  margin-bottom: 12px;
+  color: var(--panel-text);
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 1.08;
+}
+
+.window-body h2 {
+  margin-bottom: 4px;
+  color: var(--panel-text);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.22;
+}
+
+.window-body p {
+  color: var(--panel-muted);
+  line-height: 1.65;
+}

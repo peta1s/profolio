@@ -1,0 +1,11 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&family=Manrope:wght@400;500;600;700&display=swap");
+
+@import "./src/styles/base.css";
+@import "./src/styles/lighting.css";
+@import "./src/styles/desktop.css";
+@import "./src/styles/windows.css";
+@import "./src/styles/about.css";
+@import "./src/styles/panels.css";
+@import "./src/styles/gallery.css";
+@import "./src/styles/ipod.css";
+@import "./src/styles/responsive.css";

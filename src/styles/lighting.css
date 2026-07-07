@@ -1,0 +1,635 @@
+.lighting-scene {
+  --multiplier: 1;
+  --mouse-x: 0px;
+  --mouse-y: 0px;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  contain: paint;
+  isolation: isolate;
+  overflow: hidden;
+  pointer-events: none;
+  background: #151820;
+}
+
+.lighting-scene,
+.lighting-scene * {
+  transform-origin: bottom center;
+}
+
+.lighting-scene.Garden_wrapperSunset__GMbTm,
+.lighting-scene.Garden_wrapperNight__8bazo {
+  top: 0;
+  left: 0;
+  width: calc(var(--multiplier) * 100vw);
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.lighting-scene.Garden_wrapperSunset__GMbTm {
+  --text-color: #3e3636;
+  filter: brightness(0.98);
+}
+
+.lighting-scene.Garden_wrapperNight__8bazo {
+  --text-color: rgba(255, 255, 255, 0.9);
+}
+
+.lighting-scene .Garden_wrapper__y6Ust {
+  --multiplier: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: calc(var(--multiplier) * 100vw);
+  height: 100dvh;
+  overflow: hidden;
+  background: #ebd7bc;
+  transform-origin: bottom center;
+}
+
+.lighting-scene.Garden_wrapperNight__8bazo .Garden_wrapper__y6Ust {
+  background: #24252c;
+}
+
+.lighting-scene .Garden_container__0sRQg {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.lighting-scene.Garden_wrapperSunset__GMbTm .Garden_container__0sRQg {
+  background: #fff;
+}
+
+.lighting-scene .Garden_trail__8rmAn {
+  position: relative;
+  width: 90vw;
+  aspect-ratio: 1549.27 / 597.84;
+  margin-top: 5dvh;
+}
+
+.lighting-scene .Lights_sunsetBackground__Omair,
+.lighting-scene .Lights_sunsetGlow__7NhTG,
+.lighting-scene .Lights_nightBackground__tpozV {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: calc(var(--multiplier) * 100vw);
+  height: 100dvh;
+  pointer-events: none;
+}
+
+.lighting-scene .Lights_sunsetBackground__Omair {
+  z-index: 0;
+  background: linear-gradient(#a9c7dc, #c4c2c1 40%, #b9b7b6);
+}
+
+.lighting-scene .Lights_sunsetGlow__7NhTG {
+  z-index: 100;
+  background: linear-gradient(40deg, #000, #c2bcb5);
+  mix-blend-mode: soft-light;
+}
+
+.lighting-scene .Lights_nightBackground__tpozV {
+  z-index: 0;
+  background: linear-gradient(#daebff, #6e6e77);
+}
+
+.lighting-scene .Garden_grainNight__OhbAl,
+.lighting-scene .Garden_grainSunset__rmWct {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  transition: all 0s;
+}
+
+.lighting-scene .Garden_grainSunset__rmWct {
+  z-index: 10;
+  animation: Garden_load-grain__h6pId 1.5s forwards;
+}
+
+.lighting-scene .Garden_grainNight__OhbAl {
+  z-index: 100000000;
+}
+
+.lighting-scene .Garden_grainNight__OhbAl::before,
+.lighting-scene .Garden_grainSunset__rmWct::before {
+  content: "";
+  position: fixed;
+  top: -10rem;
+  left: -10rem;
+  width: calc(200% + 20rem);
+  height: calc(200% + 20rem);
+  background-image: url("https://upload.wikimedia.org/wikipedia/commons/5/5c/Image_gaussian_noise_example.png");
+  opacity: 0.12;
+  pointer-events: none;
+  animation: Garden_noise__hmn3S 1s steps(2) infinite;
+  transition: 0s;
+}
+
+.lighting-scene .Garden_trailLightNight___VQvo,
+.lighting-scene .Garden_trailLightNight2__CmhTb {
+  position: absolute;
+  width: calc(var(--multiplier) * 20vw);
+  height: calc(var(--multiplier) * 70vw);
+  background: conic-gradient(
+    from 0deg at bottom,
+    transparent 10deg,
+    #ff8f2e 70deg 300deg,
+    transparent 30deg
+  );
+  border-radius: 50%;
+  filter: blur(1vw);
+  mix-blend-mode: plus-lighter;
+  pointer-events: none;
+}
+
+.lighting-scene .Garden_trailLightNight___VQvo {
+  top: calc(var(--multiplier) * -52.5vw);
+  left: calc(var(--multiplier) * 22vw);
+  opacity: 0.2;
+  transform: rotate(85deg);
+  animation: Garden_spotlight-trail-swing__F0dVk 4s linear infinite;
+}
+
+.lighting-scene .Garden_trailLightNight2__CmhTb {
+  top: calc(var(--multiplier) * -42.5vw);
+  left: calc(var(--multiplier) * 64vw);
+  opacity: 0.5;
+  transform: rotate(-110deg);
+  animation: Garden_spotlight-trail-swing2__g0tcL 4s linear infinite;
+}
+
+.lighting-scene .Garden_trailLightNight3__xQqzv {
+  position: absolute;
+  top: calc(var(--multiplier) * -6.5vw);
+  left: calc(var(--multiplier) * 17vw);
+  width: calc(var(--multiplier) * 5vw);
+  height: calc(var(--multiplier) * 18vw);
+  background: conic-gradient(
+    from -30deg at bottom,
+    transparent 10deg,
+    #ff8f2e 70deg 300deg,
+    transparent 30deg
+  );
+  border-radius: 50%;
+  filter: blur(1vw);
+  mix-blend-mode: plus-lighter;
+  opacity: 0.1;
+  pointer-events: none;
+  transform: rotate(-110deg);
+  animation: Garden_spotlight-trail-swing3__dSlQe 4s linear infinite;
+}
+
+.lighting-scene .Garden_trailLightNight4___ebtm {
+  position: absolute;
+  top: calc(var(--multiplier) * 15vw);
+  left: calc(var(--multiplier) * 19vw);
+  width: calc(var(--multiplier) * 4vw);
+  height: calc(var(--multiplier) * 4vw);
+  background: conic-gradient(
+    from -30deg at bottom,
+    transparent 10deg,
+    #ff8f2e 70deg 300deg,
+    transparent 30deg
+  );
+  border-radius: 50%;
+  filter: blur(1.5vw);
+  mix-blend-mode: plus-lighter;
+  opacity: 0.3;
+  pointer-events: none;
+  transform: rotate(40deg);
+  animation: Garden_spotlight-trail-swing4__84qiE 4s linear infinite;
+}
+
+.lighting-scene .Garden_trailLightNight5__0f_fN {
+  position: absolute;
+  top: calc(var(--multiplier) * 5vw);
+  left: calc(var(--multiplier) * 58vw);
+  z-index: 1000000000;
+  width: calc(var(--multiplier) * 12vw);
+  height: calc(var(--multiplier) * 6vw);
+  background: conic-gradient(
+    from 0deg at bottom right,
+    transparent 80deg,
+    #ff8f2e 70deg 280deg,
+    transparent 280deg
+  );
+  border-radius: 50%;
+  filter: blur(1vw);
+  mix-blend-mode: plus-lighter;
+  opacity: 0.2;
+  pointer-events: none;
+  transform: rotate(10deg);
+}
+
+.lighting-scene .Lights_effects__nyLMS div {
+  transition: opacity 2s;
+}
+
+.lighting-scene .Lights_warmTones___v0gz {
+  position: fixed;
+  top: 0;
+  left: -20vw;
+  z-index: 100;
+  width: calc(var(--multiplier) * 150vw);
+  height: 100dvh;
+  background-image: linear-gradient(40deg, #433831, #f8c7f050);
+  background-repeat: no-repeat;
+  background-size: cover;
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+}
+
+.lighting-scene .Lights_gradientContrast___oBWf,
+.lighting-scene .Lights_nightGlow__MamFz {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  width: calc(var(--multiplier) * 100vw);
+  height: 100dvh;
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+}
+
+.lighting-scene .Lights_gradientContrast___oBWf {
+  background: linear-gradient(30deg, #000, #fff);
+}
+
+.lighting-scene .Lights_nightGlow__MamFz {
+  background: linear-gradient(40deg, #000, #032e39);
+}
+
+.lighting-scene .Lights_topAccentSunset__0Qxad {
+  position: absolute;
+  top: calc(var(--multiplier) * -150vw);
+  left: 0;
+  width: calc(var(--multiplier) * 150vw);
+  height: calc(var(--multiplier) * 80vw);
+  background: conic-gradient(
+    from 12deg at bottom,
+    #fffee050,
+    #ffbb2e 27deg 14deg,
+    #fdffec00 64deg
+  );
+  border-radius: 50%;
+  filter: blur(4vw);
+  mix-blend-mode: plus-lighter;
+  pointer-events: none;
+  transform: rotate(158deg);
+}
+
+.lighting-scene .Lights_leftLightAfternoon__89dOz {
+  position: absolute;
+  top: calc(var(--multiplier) * -150vw);
+  left: calc(var(--multiplier) * -50vw);
+  width: calc(var(--multiplier) * 56vw);
+  height: calc(var(--multiplier) * 130vw);
+  background: conic-gradient(
+    from 357deg at bottom,
+    #fffee050,
+    #ffc551 18deg 276deg,
+    #fdffec00 64deg
+  );
+  border-radius: 50%;
+  filter: blur(4vw);
+  mix-blend-mode: plus-lighter;
+  opacity: 0.09;
+  pointer-events: none;
+  transform: rotate(100deg);
+}
+
+.lighting-scene .Lights_floorLightSunset__PTWQ1 {
+  position: absolute;
+  top: calc(var(--multiplier) * -210vw);
+  left: calc(var(--multiplier) * -100vw);
+  width: calc(var(--multiplier) * 85vw);
+  height: calc(var(--multiplier) * 200vw);
+  background: conic-gradient(
+    from 0deg at bottom,
+    #fdffec00 0deg,
+    #ff8f2e 30deg 300deg,
+    #fffee000 300deg
+  );
+  border-radius: 50%;
+  filter: blur(1vw);
+  mix-blend-mode: plus-lighter;
+  opacity: 0.3;
+  pointer-events: none;
+  transform: rotate(96deg);
+}
+
+.lighting-scene .Lights_topAccentNight__0gOoN {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: calc(var(--multiplier) * 100vw);
+  height: 100vh;
+  background: linear-gradient(10deg, #006b72, #ff5000 60%);
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+.lighting-scene .Lights_pinkLight__TbChu {
+  position: absolute;
+  top: calc(var(--multiplier) * -146vw);
+  left: calc(var(--multiplier) * 70vw);
+  z-index: 100000000;
+  width: calc(var(--multiplier) * 50vw);
+  height: calc(var(--multiplier) * 150vw);
+  background: conic-gradient(
+    from 0deg at bottom left,
+    #ffffff00,
+    #00000000 0deg 3deg,
+    #005779 8deg,
+    #ff450c,
+    #ffffff00 25deg
+  );
+  filter: blur(3vw);
+  mix-blend-mode: plus-lighter;
+  pointer-events: none;
+  transform: rotate(-80deg);
+}
+
+.lighting-scene .Lights_floorLightNight___VX1h {
+  position: absolute;
+  top: calc(var(--multiplier) * -210vw);
+  left: calc(var(--multiplier) * -100vw);
+  width: calc(var(--multiplier) * 85vw);
+  height: calc(var(--multiplier) * 200vw);
+  background: conic-gradient(
+    from 0deg at bottom,
+    #fdffec00 0deg,
+    #82828e 30deg 300deg,
+    #fffee000 300deg
+  );
+  border-radius: 50%;
+  filter: blur(1vw);
+  mix-blend-mode: plus-lighter;
+  pointer-events: none;
+  transform: rotate(96deg);
+}
+
+.lighting-scene .Lights_colorNight__gMTfp {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10000;
+  width: calc(var(--multiplier) * 100vw);
+  height: 100vh;
+  background: linear-gradient(220deg, #04061bde, #5289ff);
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+.lighting-scene .Lights_leftLightNight__gH7VI {
+  position: absolute;
+  top: calc(var(--multiplier) * -156vw);
+  left: calc(var(--multiplier) * 70vw);
+  z-index: 100000000;
+  width: calc(var(--multiplier) * 50vw);
+  height: calc(var(--multiplier) * 150vw);
+  background: conic-gradient(from 0deg at bottom left, #fffbe7, transparent 20deg);
+  border-radius: 0;
+  filter: blur(3vw);
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  transform: rotate(-80deg);
+}
+
+.lighting-scene .Lights_leftLightNight2__rhH4g {
+  position: absolute;
+  top: calc(var(--multiplier) * -60vw);
+  left: calc(var(--multiplier) * -50vw);
+  z-index: 100000000;
+  width: calc(var(--multiplier) * 100vw);
+  height: calc(var(--multiplier) * 200vw);
+  background: conic-gradient(from 0deg at bottom left, transparent, #dca98a, #2d354c 20deg);
+  border-radius: 0;
+  filter: blur(2vw);
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  transform: rotate(94deg);
+  transform-origin: center;
+}
+
+.lighting-scene .Lights_lightBlueLight__4ieE0 {
+  position: absolute;
+  top: calc(var(--multiplier) * -80vw);
+  left: calc(var(--multiplier) * -20vw);
+  z-index: 100000000;
+  width: calc(var(--multiplier) * 100vw);
+  height: calc(var(--multiplier) * 100vw);
+  background: conic-gradient(
+    from -74deg at bottom right,
+    transparent,
+    #3adee7,
+    transparent 10deg,
+    rgba(81, 77, 101, 0.222) 20deg 80deg
+  );
+  border-radius: 0;
+  filter: blur(10vw);
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+.lighting-scene .light-layer,
+.lighting-scene .light-grain {
+  opacity: 0 !important;
+  pointer-events: none;
+  transition: opacity 2400ms ease;
+}
+
+.lighting-scene .light-always {
+  opacity: var(--light-opacity, 1) !important;
+}
+
+.lighting-scene[data-mode="sunset"] .light-sunset {
+  opacity: var(--light-opacity, 1) !important;
+}
+
+.lighting-scene[data-mode="night"] .light-layer.light-night,
+.lighting-scene[data-mode="night"] .light-grain.light-night {
+  opacity: var(--light-opacity, 1) !important;
+}
+
+.lighting-scene[data-mode="sunset"] .light-night,
+.lighting-scene[data-mode="night"] .light-sunset {
+  opacity: 0 !important;
+}
+
+.lighting-scene[data-mode="night"]:not(.night-ready) .Garden_grainNight__OhbAl {
+  opacity: 0 !important;
+}
+
+.lighting-scene .Lights_gradientContrast___oBWf {
+  --light-opacity: 0.7;
+}
+
+.lighting-scene .Lights_pinkLight__TbChu {
+  --light-opacity: 0.2;
+}
+
+.lighting-scene .Lights_topAccentNight__0gOoN {
+  --light-opacity: 0.6;
+}
+
+.lighting-scene .Lights_floorLightNight___VX1h {
+  --light-opacity: 0.33;
+}
+
+.lighting-scene .Lights_colorNight__gMTfp {
+  --light-opacity: 0.9;
+}
+
+.lighting-scene .Lights_leftLightNight__gH7VI {
+  --light-opacity: 0.6;
+}
+
+.lighting-scene .Lights_topAccentSunset__0Qxad {
+  --light-opacity: 0.05;
+}
+
+.lighting-scene .light-left-afternoon-sunset {
+  --light-opacity: 0.24;
+  top: calc(var(--multiplier) * -195vw) !important;
+  left: calc(var(--multiplier) * -83vw) !important;
+  transform: rotate(127deg) !important;
+}
+
+.lighting-scene .Lights_floorLightSunset__PTWQ1 {
+  --light-opacity: 0.4;
+}
+
+.lighting-scene::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 2147483647;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.15)),
+    radial-gradient(circle at 45% 45%, transparent 0 35%, rgba(0, 0, 0, 0.12) 100%);
+}
+
+@media (max-width: 800px) {
+  .lighting-scene .Garden_trail__8rmAn {
+    width: 170vw;
+    margin-left: 20vw;
+  }
+}
+
+@keyframes Garden_load-grain__h6pId {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes Garden_noise__hmn3S {
+  0% {
+    transform: translate3d(0, 2rem, 0);
+  }
+
+  10% {
+    transform: translate3d(-1rem, -2rem, 0);
+  }
+
+  20% {
+    transform: translate3d(-4rem, 1rem, 0);
+  }
+
+  30% {
+    transform: translate3d(4.5rem, -4.5rem, 0);
+  }
+
+  40% {
+    transform: translate3d(-1rem, 3.5rem, 0);
+  }
+
+  50% {
+    transform: translate3d(-4.5rem, -2rem, 0);
+  }
+
+  60% {
+    transform: translate3d(1rem, 3rem, 0);
+  }
+
+  70% {
+    transform: translate3d(3.5rem, -4rem, 0);
+  }
+
+  80% {
+    transform: translate3d(-4.5rem, 0.5rem, 0);
+  }
+
+  90% {
+    transform: translate3d(3rem, -2.5rem, 0);
+  }
+
+  100% {
+    transform: translate3d(-3.5rem, 0, 0);
+  }
+}
+
+@keyframes Garden_spotlight-trail-swing__F0dVk {
+  0%,
+  100% {
+    opacity: 0.1;
+    transform: rotate(85deg) scale(1);
+  }
+
+  50% {
+    opacity: 0.08;
+    transform: rotate(115deg) scale(0.5);
+  }
+}
+
+@keyframes Garden_spotlight-trail-swing2__g0tcL {
+  0%,
+  100% {
+    opacity: 0.1;
+    transform: rotate(-110deg) scale(1);
+  }
+
+  50% {
+    opacity: 0.08;
+    transform: rotate(-98deg) scale(1.5);
+  }
+}
+
+@keyframes Garden_spotlight-trail-swing3__dSlQe {
+  0%,
+  100% {
+    opacity: 0.1;
+    transform: rotate(-110deg);
+  }
+
+  50% {
+    opacity: 0.08;
+    transform: rotate(-120deg);
+  }
+}
+
+@keyframes Garden_spotlight-trail-swing4__84qiE {
+  0%,
+  100% {
+    opacity: 0.1;
+    transform: rotate(40deg);
+  }
+
+  50% {
+    opacity: 0.08;
+    transform: rotate(60deg);
+  }
+}
