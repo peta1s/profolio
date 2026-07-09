@@ -1,8 +1,8 @@
 import { useRef } from "react";
 import { getProjectById, getProjectDisplayMeta, projectShowcases } from "../data/projectData";
-import citygisLogo from "../../assets/sticker-citygis.png";
-import fdLogo from "../../assets/sticker-fd.png";
-import jobrightAiLogo from "../../assets/sticker-jobrightai.png";
+import citygisLogo from "../../assets/sticker-citygis.webp";
+import fdLogo from "../../assets/sticker-fd.webp";
+import jobrightAiLogo from "../../assets/sticker-jobrightai.webp";
 import AboutMe from "./AboutMe";
 import CameraWindow from "./CameraWindow";
 import GalleryWindow from "./GalleryWindow";

@@ -1,13 +1,24 @@
 import { forwardRef } from "react";
-import portraitImage from "../../../assets/polaroid-portrait.jpg";
 
 
 const PolaroidPhoto = forwardRef(function PolaroidPhoto(
   {
+    imageSrc,
     isPrinting,
     isFree,
+    isDeveloping,
+    isDeveloped,
     isDragging,
     offset,
+    finalRotate,
+    finalX,
+    finalY,
+    stackIndex,
+    imageFit,
+    imageTop,
+    imageLeft,
+    imageWidth,
+    imageHeight,
     onPrintEnd,
     onPointerDown,
     onPointerMove,
@@ -21,6 +32,8 @@ const PolaroidPhoto = forwardRef(function PolaroidPhoto(
       className={[
         "printed-photo",
         isPrinting ? "is-printing" : "",
+        isPrinting && !isDeveloped ? "is-undeveloped" : "",
+        isDeveloping ? "is-developing" : "",
         isFree ? "is-free" : "",
         isDragging ? "is-dragging" : "",
       ]
@@ -29,6 +42,15 @@ const PolaroidPhoto = forwardRef(function PolaroidPhoto(
       style={{
         "--drag-x": `${offset.x}px`,
         "--drag-y": `${offset.y}px`,
+        "--paper-final-rotate": finalRotate,
+        "--paper-final-x": finalX,
+        "--paper-final-y": finalY,
+        "--photo-stack-index": stackIndex,
+        "--photo-image-fit": imageFit,
+        "--photo-image-top": imageTop,
+        "--photo-image-left": imageLeft,
+        "--photo-image-width": imageWidth,
+        "--photo-image-height": imageHeight,
       }}
       aria-hidden={!isPrinting}
       onAnimationEnd={(event) => {
@@ -48,7 +70,7 @@ const PolaroidPhoto = forwardRef(function PolaroidPhoto(
           <div className="printed-photo-side-padding" />
           <div className="printed-photo-image">
             <div className="printed-photo-placeholder" />
-            <img className="printed-photo-portrait" src={portraitImage} alt="" />
+            <img className="printed-photo-portrait" src={imageSrc} alt="" />
             <div className="printed-photo-image-shadow" />
             <div className="printed-photo-grain" />
           </div>

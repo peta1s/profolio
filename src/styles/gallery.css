@@ -172,22 +172,22 @@
 }
 
 .gr-hotspot-prev {
-  top: 56.4%;
-  left: 65.9%;
-  width: 5.8%;
-  height: 8.7%;
+  top: 56.5%;
+  left: 64%;
+  width: 30px;
+  height: 30px;
 }
 
 .gr-hotspot-next {
-  top: 56.4%;
-  left: 72.7%;
-  width: 5.8%;
-  height: 8.7%;
+  top: 56.5%;
+  left: 71.7%;
+  width: 30px;
+  height: 30px;
 }
 
 .gr-hotspot-album {
   top: 30.7%;
-  left: 77.8%;
+  left: 75.8%;
   width: 5.5%;
   height: 8.8%;
   border-radius: 4px;

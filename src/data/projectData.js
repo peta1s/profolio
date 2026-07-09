@@ -1,13 +1,13 @@
-import citygisPortImage from "../../assets/project-citygis-port.png";
-import citygisTianmuImage from "../../assets/project-citygis-tianmu.png";
-import fdOpsImage from "../../assets/project-fd-ops.png";
-import fdPortfolioImage from "../../assets/project-fd-portfolio.png";
-import fdPortfolioAnalysisImage from "../../assets/project-fd-portfolio-analysis.png";
-import fdPortfolioHoldingsImage from "../../assets/project-fd-portfolio-holdings.png";
-import fdPortfolioRebalanceImage from "../../assets/project-fd-portfolio-rebalance.png";
-import fdReportImage from "../../assets/project-fd-report.png";
-import fdReportEmailPreviewImage from "../../assets/project-fd-report-email-preview.png";
-import jobrightAutofillImage from "../../assets/project-jobright-autofill.png";
+import citygisPortImage from "../../assets/project-citygis-port.webp";
+import citygisTianmuImage from "../../assets/project-citygis-tianmu.webp";
+import fdOpsImage from "../../assets/project-fd-ops.webp";
+import fdPortfolioImage from "../../assets/project-fd-portfolio.webp";
+import fdPortfolioAnalysisImage from "../../assets/project-fd-portfolio-analysis.webp";
+import fdPortfolioHoldingsImage from "../../assets/project-fd-portfolio-holdings.webp";
+import fdPortfolioRebalanceImage from "../../assets/project-fd-portfolio-rebalance.webp";
+import fdReportImage from "../../assets/project-fd-report.webp";
+import fdReportEmailPreviewImage from "../../assets/project-fd-report-email-preview.webp";
+import jobrightAutofillImage from "../../assets/project-jobright-autofill.webp";
 import jobrightResumeEnhanceImage from "../../assets/project-jobright-resume enhance.png";
 
 export const projectDisplayMeta = {

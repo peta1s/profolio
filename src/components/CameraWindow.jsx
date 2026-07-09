@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import grScreenImage from "../../assets/gr-screen.png";
+import grScreenImage from "../../assets/gr-screen.webp";
 import { photoRoll } from "../data/photoData";
 
 function CameraWindow() {

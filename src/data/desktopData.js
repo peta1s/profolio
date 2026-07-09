@@ -1,7 +1,7 @@
 import appleIcon from "../../assets/renee-apple.svg";
-import folderIcon from "../../assets/renee-folder.png";
-import grLensIcon from "../../assets/gr-lens.png";
-import trashIcon from "../../assets/renee-trash.png";
+import folderIcon from "../../assets/renee-folder.webp";
+import grLensIcon from "../../assets/gr-lens.webp";
+import trashIcon from "../../assets/renee-trash.webp";
 
 export { appleIcon };
 

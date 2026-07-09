@@ -1,11 +1,14 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import DesktopDock from "./components/DesktopDock";
 import DesktopIcons from "./components/DesktopIcons";
-import { musicItems } from "./components/AboutMe";
 import IntroNote from "./components/IntroNote";
 import LightingScene from "./components/LightingScene";
 import MenuBar from "./components/MenuBar";
 import WindowManager from "./components/WindowManager";
+import portraitImage from "../assets/polaroid-portrait.webp";
+import portraitImageTwo from "../assets/polaroid-portrait-2.jpg";
+import { experiences, musicItems, techStack } from "./data/aboutData";
+import { projectShowcases } from "./data/projectData";
 import { getInitialLightingMode } from "./utils/lightingMode";
 
 const getAlbumKey = (album) => (album ? `${album.title}::${album.artist}` : "");
@@ -21,6 +24,30 @@ const initialQueue = playableAlbums
   .filter((album) => album.favorite && getAlbumKey(album) !== getAlbumKey(initialAlbum))
   .slice(0, 4);
 
+const collectDeferredImageUrls = () => {
+  const urls = new Set([portraitImage, portraitImageTwo]);
+
+  experiences.forEach((experience) => {
+    if (experience.logo) urls.add(experience.logo);
+  });
+
+  techStack.forEach((tech) => {
+    if (tech.icon) urls.add(tech.icon);
+  });
+
+  projectShowcases.forEach((project) => {
+    if (project.image) urls.add(project.image);
+    project.images?.forEach((image) => urls.add(image));
+    project.detailImages?.forEach((item) => {
+      if (item.image) urls.add(item.image);
+    });
+  });
+
+  return Array.from(urls);
+};
+
+const deferredImageUrls = collectDeferredImageUrls();
+
 function App() {
   const [mode, setMode] = useState(getInitialLightingMode);
   const [activeWindows, setActiveWindows] = useState({});
@@ -35,6 +62,33 @@ function App() {
     library: playableAlbums,
   });
   const topZ = useRef(60);
+
+  useEffect(() => {
+    let imageRequests = [];
+
+    const preloadImages = () => {
+      imageRequests = deferredImageUrls.map((url) => {
+        const image = new Image();
+        image.decoding = "async";
+        image.src = url;
+        return image;
+      });
+    };
+
+    if ("requestIdleCallback" in window) {
+      const idleId = window.requestIdleCallback(preloadImages, { timeout: 2400 });
+      return () => {
+        window.cancelIdleCallback(idleId);
+        imageRequests = [];
+      };
+    }
+
+    const timeoutId = window.setTimeout(preloadImages, 700);
+    return () => {
+      window.clearTimeout(timeoutId);
+      imageRequests = [];
+    };
+  }, []);
 
   const scrollWindowContentToTop = (id, behavior = "auto") => {
     const contentSelectorById = {

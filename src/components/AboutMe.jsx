@@ -1,4 +1,6 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import portraitImage from "../../assets/polaroid-portrait.webp";
+import portraitImageTwo from "../../assets/polaroid-portrait-2.jpg";
 import { experiences, movieItems, musicItems, navItems, techStack } from "../data/aboutData";
 import AboutHero from "./about/AboutHero";
 import AboutSidebar from "./about/AboutSidebar";
@@ -6,36 +8,67 @@ import ExperienceSection from "./about/ExperienceSection";
 import ProximityStackGrid from "./about/ProximityStackGrid";
 import ShelfRow from "./about/ShelfRow";
 
-export { musicItems } from "../data/aboutData";
-
+const PHOTO_DEVELOP_DURATION = 2450;
+const POLAROID_PHOTOS = [
+  {
+    id: "portrait-one",
+    imageSrc: portraitImage,
+    finalRotate: "5deg",
+    finalX: "-46.5%",
+    finalY: "14%",
+    stackIndex: 1,
+  },
+  {
+    id: "portrait-two",
+    imageSrc: portraitImageTwo,
+    finalRotate: "3.5deg",
+    finalX: "-46.5%",
+    finalY: "14%",
+    stackIndex: 2,
+    imageFit: "cover",
+    imageTop: "0",
+    imageLeft: "0",
+    imageWidth: "100%",
+    imageHeight: "100%",
+  },
+];
 
 function AboutMe({ musicPlayer, onMusicAction, onOpenProject }) {
   const [printRun, setPrintRun] = useState(0);
-  const [isPhotoFree, setIsPhotoFree] = useState(false);
-  const [isDraggingPhoto, setIsDraggingPhoto] = useState(false);
+  const [printedPhotos, setPrintedPhotos] = useState([]);
+  const [draggingPhotoId, setDraggingPhotoId] = useState(null);
   const [isShuttering, setIsShuttering] = useState(false);
-  const [photoOffset, setPhotoOffset] = useState({ x: 0, y: 0 });
+  const [isPrintQueued, setIsPrintQueued] = useState(false);
   const [textShape, setTextShape] = useState({ active: false });
   const [activeSection, setActiveSection] = useState("hello");
   const [shelfFilters, setShelfFilters] = useState({ music: "favorites", movies: "favorites" });
   const dragStartRef = useRef(null);
-  const photoRef = useRef(null);
+  const developTimersRef = useRef({});
+  const isPrintQueuedRef = useRef(false);
+  const photoRefs = useRef({});
   const introRef = useRef(null);
   const contentRef = useRef(null);
   const sectionRefs = useRef({});
-  const isPrinted = printRun > 0;
+  const isPrinted = printedPhotos.length > 0;
+  const canPrintPhoto =
+    !isPrintQueued &&
+    printedPhotos.length < POLAROID_PHOTOS.length &&
+    printedPhotos.every((photo) => photo.isFree);
 
   const setSectionRef = (id) => (node) => {
     sectionRefs.current[id] = node;
   };
 
   const updateTextShape = useCallback(() => {
-    if (!isPhotoFree || !photoRef.current || !introRef.current) {
+    const latestFreePhoto = [...printedPhotos].reverse().find((photo) => photo.isFree);
+    const latestPhotoRef = latestFreePhoto ? photoRefs.current[latestFreePhoto.id] : null;
+
+    if (!latestFreePhoto || !latestPhotoRef || !introRef.current) {
       setTextShape({ active: false });
       return;
     }
 
-    const photoRect = photoRef.current.getBoundingClientRect();
+    const photoRect = latestPhotoRef.getBoundingClientRect();
     const introRect = introRef.current.getBoundingClientRect();
     const overlapX = Math.max(
       0,
@@ -68,27 +101,41 @@ function AboutMe({ musicPlayer, onMusicAction, onOpenProject }) {
         : Math.max(0, Math.round(introRect.right - photoRect.right - gap / 2));
 
     setTextShape({ active: true, side, top, width, height, inset });
-  }, [isPhotoFree]);
+  }, [printedPhotos]);
 
   const printPhoto = () => {
-    setIsPhotoFree(false);
-    setIsDraggingPhoto(false);
-    setPhotoOffset({ x: 0, y: 0 });
-    setTextShape({ active: false });
-
-    if (!isPrinted) {
-      setPrintRun(1);
+    if (
+      printedPhotos.length >= POLAROID_PHOTOS.length ||
+      printedPhotos.some((photo) => !photo.isFree)
+    ) {
       return;
     }
 
-    setPrintRun(0);
-    window.requestAnimationFrame(() => {
-      window.requestAnimationFrame(() => setPrintRun((current) => current + 1));
-    });
+    const nextPhoto = POLAROID_PHOTOS[printedPhotos.length];
+    window.clearTimeout(developTimersRef.current[nextPhoto.id]);
+    setPrintRun((run) => run + 1);
+    setDraggingPhotoId(null);
+    setTextShape({ active: false });
+    setPrintedPhotos((current) => [
+      ...current,
+      {
+        ...nextPhoto,
+        isFree: false,
+        isDeveloped: false,
+        offset: { x: 0, y: 0 },
+      },
+    ]);
   };
 
   const handleShutterClick = (event) => {
     event.stopPropagation();
+
+    if (!canPrintPhoto || isPrintQueuedRef.current) {
+      return;
+    }
+
+    isPrintQueuedRef.current = true;
+    setIsPrintQueued(true);
     setIsShuttering(false);
     window.requestAnimationFrame(() => {
       window.requestAnimationFrame(() => {
@@ -98,13 +145,29 @@ function AboutMe({ musicPlayer, onMusicAction, onOpenProject }) {
     });
   };
 
-  const handlePrintEnd = () => {
-    setIsPhotoFree(true);
+  const handlePrintEnd = (photoId) => {
+    isPrintQueuedRef.current = false;
+    setIsPrintQueued(false);
+    setPrintedPhotos((current) =>
+      current.map((photo) => (photo.id === photoId ? { ...photo, isFree: true } : photo)),
+    );
+
+    window.clearTimeout(developTimersRef.current[photoId]);
+    developTimersRef.current[photoId] = window.setTimeout(() => {
+      setPrintedPhotos((current) =>
+        current.map((photo) =>
+          photo.id === photoId ? { ...photo, isDeveloped: true } : photo,
+        ),
+      );
+      delete developTimersRef.current[photoId];
+    }, PHOTO_DEVELOP_DURATION);
     window.requestAnimationFrame(updateTextShape);
   };
 
-  const handlePhotoPointerDown = (event) => {
-    if (!isPhotoFree) {
+  const handlePhotoPointerDown = (photoId, event) => {
+    const photo = printedPhotos.find((item) => item.id === photoId);
+
+    if (!photo?.isFree) {
       return;
     }
 
@@ -112,12 +175,13 @@ function AboutMe({ musicPlayer, onMusicAction, onOpenProject }) {
     event.currentTarget.setPointerCapture(event.pointerId);
     dragStartRef.current = {
       pointerId: event.pointerId,
+      photoId,
       startX: event.clientX,
       startY: event.clientY,
-      originX: photoOffset.x,
-      originY: photoOffset.y,
+      originX: photo.offset.x,
+      originY: photo.offset.y,
     };
-    setIsDraggingPhoto(true);
+    setDraggingPhotoId(photoId);
   };
 
   const handlePhotoPointerMove = (event) => {
@@ -128,10 +192,19 @@ function AboutMe({ musicPlayer, onMusicAction, onOpenProject }) {
     }
 
     event.stopPropagation();
-    setPhotoOffset({
-      x: dragStart.originX + event.clientX - dragStart.startX,
-      y: dragStart.originY + event.clientY - dragStart.startY,
-    });
+    setPrintedPhotos((current) =>
+      current.map((photo) =>
+        photo.id === dragStart.photoId
+          ? {
+              ...photo,
+              offset: {
+                x: dragStart.originX + event.clientX - dragStart.startX,
+                y: dragStart.originY + event.clientY - dragStart.startY,
+              },
+            }
+          : photo,
+      ),
+    );
   };
 
   const handlePhotoPointerUp = (event) => {
@@ -143,7 +216,7 @@ function AboutMe({ musicPlayer, onMusicAction, onOpenProject }) {
 
     event.stopPropagation();
     dragStartRef.current = null;
-    setIsDraggingPhoto(false);
+    setDraggingPhotoId(null);
   };
 
   const handleNavClick = (id) => {
@@ -180,12 +253,18 @@ function AboutMe({ musicPlayer, onMusicAction, onOpenProject }) {
 
   useLayoutEffect(() => {
     updateTextShape();
-  }, [photoOffset, updateTextShape]);
+  }, [printedPhotos, updateTextShape]);
 
   useLayoutEffect(() => {
     window.addEventListener("resize", updateTextShape);
     return () => window.removeEventListener("resize", updateTextShape);
   }, [updateTextShape]);
+
+  useEffect(() => {
+    return () => {
+      Object.values(developTimersRef.current).forEach((timerId) => window.clearTimeout(timerId));
+    };
+  }, []);
 
   useEffect(() => {
     const container = contentRef.current;
@@ -251,12 +330,12 @@ function AboutMe({ musicPlayer, onMusicAction, onOpenProject }) {
             sectionRef={setSectionRef("hello")}
             printRun={printRun}
             isPrinted={isPrinted}
-            isPhotoFree={isPhotoFree}
-            isDraggingPhoto={isDraggingPhoto}
+            photos={printedPhotos}
+            draggingPhotoId={draggingPhotoId}
             isShuttering={isShuttering}
-            photoOffset={photoOffset}
+            canPrintPhoto={canPrintPhoto}
             textShape={textShape}
-            photoRef={photoRef}
+            photoRefs={photoRefs}
             introRef={introRef}
             onShutterClick={handleShutterClick}
             onShutterAnimationEnd={() => setIsShuttering(false)}
