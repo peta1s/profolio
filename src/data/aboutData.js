@@ -17,7 +17,7 @@ import nostalgiaUltraCover from "../../assets/nostalgia-ultra.jpg";
 import { projectShowcases } from "./projectData";
 
 export const navItems = [
-  { id: "hello", label: "Hello" },
+  { id: "hello", label: "Hello!" },
   { id: "experience", label: "Experience" },
   { id: "stack", label: "Stack" },
   { id: "music", label: "Music" },
@@ -89,7 +89,7 @@ export const experiences = [
     logo: citygisLogo,
     role: "上海城市地理信息系统发展有限公司-全栈开发实习生",
     time: "2024.07-2025.09",
-    summary: "预留实习公司简介：可放负责的业务、参与的产品、使用的技术和项目收获。",
+    summary: "参与公司地信资源管理平台、政务大屏、ai中台系统的开发",
     projectIds: ["citygis-tianmu", "citygis-port"],
   },
   {

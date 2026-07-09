@@ -11,7 +11,6 @@ export const desktopIcons = [
   { id: "galleryWindow", label: "Gallery", icon: folderIcon, x: "57vw", y: "34vh" },
   { id: "ipodWindow", label: "iPod", icon: null, x: "43vw", y: "47vh", ipod: true },
   { id: "aboutWindow", label: "About me", icon: folderIcon, x: "18vw", y: "28vh" },
-  { id: "notesWindow", label: "Notes", icon: folderIcon, x: "69vw", y: "38vh" },
   { id: "contactWindow", label: "Contact", icon: folderIcon, x: "30vw", y: "48vh" },
   { id: "trashWindow", label: "Trash", icon: trashIcon, x: "84vw", y: "70vh", trash: true },
 ];

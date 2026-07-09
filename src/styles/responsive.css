@@ -322,6 +322,14 @@
   .project-detail-section.is-wide {
     grid-column: auto;
   }
+
+  .project-detail-media {
+    grid-template-columns: 1fr;
+  }
+
+  .project-detail-media figure.is-wide {
+    grid-column: auto;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -341,5 +349,11 @@
 
   .about-copy-card {
     transition-delay: 0s;
+  }
+
+  .about-shell.has-section-reveal .about-section.is-section-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 }

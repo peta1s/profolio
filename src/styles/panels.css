@@ -57,38 +57,28 @@
 
 .project-mark {
   display: grid;
-  width: 82px;
-  height: 82px;
+  width: 96px;
+  height: 96px;
   place-items: center;
-  color: #fff;
-  border-radius: 24px;
-  font-size: 42px;
-  font-weight: 850;
+  font-size: 0;
   line-height: 1;
 }
 
-.project-mark-blue {
-  background: linear-gradient(145deg, #3b82f6, #1e3a8a);
+.project-mark img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 14px 24px rgba(15, 23, 42, 0.12));
 }
 
-.project-mark-indigo {
-  background: linear-gradient(145deg, #4f46e5, #172554);
-}
-
-.project-mark-rose {
-  background: linear-gradient(145deg, #fb7185, #9f1239);
-}
-
-.project-mark-orange {
-  background: linear-gradient(145deg, #fb923c, #c2410c);
-}
-
-.project-mark-green {
-  background: linear-gradient(145deg, #22c55e, #166534);
-}
-
-.project-mark-purple {
-  background: linear-gradient(145deg, #a855f7, #581c87);
+.project-mark:not(:has(img)) {
+  width: 82px;
+  height: 82px;
+  color: #fff;
+  border-radius: 24px;
+  background: linear-gradient(145deg, #64748b, #1e293b);
+  font-size: 42px;
+  font-weight: 850;
 }
 
 .project-detail-identity h2 {
@@ -262,7 +252,8 @@
 
 .project-detail-media {
   display: grid;
-  gap: 14px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(18px, 3vw, 32px);
   padding-top: clamp(8px, 1vw, 14px);
   border-top: 1px solid rgba(15, 23, 42, 0.1);
 }
@@ -270,14 +261,22 @@
 .project-detail-media figure {
   display: grid;
   gap: 12px;
-  max-width: 680px;
+  align-content: start;
   margin: 0;
+}
+
+.project-detail-media figure.is-wide {
+  grid-column: 1 / -1;
+}
+
+.project-detail-media figure.is-wide img {
+  max-height: none;
 }
 
 .project-detail-media img {
   display: block;
-  width: min(100%, 560px);
-  max-height: min(760px, 82vh);
+  width: 100%;
+  max-height: min(820px, 82vh);
   object-fit: contain;
   object-position: top center;
   background: #f2f3f5;
@@ -290,7 +289,6 @@
 }
 
 .project-detail-media figcaption {
-  max-width: 560px;
   color: #8a93a1;
   font-size: 14px;
   line-height: 1.45;
@@ -387,7 +385,7 @@
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.88);
   box-shadow: 0 8px 20px rgba(15, 23, 42, 0.1);
-  font-family: var(--font-mono);
+  font-family: inherit;
   font-size: 13px;
   font-weight: 750;
   line-height: 1;

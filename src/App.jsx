@@ -23,8 +23,8 @@ const initialQueue = playableAlbums
 
 function App() {
   const [mode, setMode] = useState(getInitialLightingMode);
-  const [activeWindows, setActiveWindows] = useState({ aboutWindow: true });
-  const [zIndices, setZIndices] = useState({ aboutWindow: 60 });
+  const [activeWindows, setActiveWindows] = useState({});
+  const [zIndices, setZIndices] = useState({});
   const [windowPositions, setWindowPositions] = useState({});
   const [iconPositions, setIconPositions] = useState({});
   const [selectedProjectId, setSelectedProjectId] = useState(null);
@@ -36,14 +36,39 @@ function App() {
   });
   const topZ = useRef(60);
 
+  const scrollWindowContentToTop = (id, behavior = "auto") => {
+    const contentSelectorById = {
+      aboutWindow: ".about-shell",
+      projectsWindow: ".projects-body",
+    };
+    const selector = contentSelectorById[id];
+
+    if (!selector) return;
+
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => {
+        document.querySelector(`#${id} ${selector}`)?.scrollTo({
+          top: 0,
+          behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+            ? "auto"
+            : behavior,
+        });
+      });
+    });
+  };
+
   const bringToFront = (id) => {
     topZ.current += 1;
     setZIndices((current) => ({ ...current, [id]: topZ.current }));
   };
 
-  const openWindow = (id) => {
+  const openWindow = (id, options = {}) => {
     setActiveWindows((current) => ({ ...current, [id]: true }));
     bringToFront(id);
+
+    if (options.resetScroll !== false) {
+      scrollWindowContentToTop(id);
+    }
 
     if (window.matchMedia("(max-width: 900px)").matches) {
       window.requestAnimationFrame(() => {
@@ -59,9 +84,9 @@ function App() {
     }
   };
 
-  const openProject = (projectId) => {
+  const openProject = (projectId, options = {}) => {
     setSelectedProjectId(projectId);
-    openWindow("projectsWindow");
+    openWindow("projectsWindow", options);
   };
 
   const closeWindow = (id) => {

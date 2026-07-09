@@ -2,6 +2,9 @@ import citygisPortImage from "../../assets/project-citygis-port.png";
 import citygisTianmuImage from "../../assets/project-citygis-tianmu.png";
 import fdOpsImage from "../../assets/project-fd-ops.png";
 import fdPortfolioImage from "../../assets/project-fd-portfolio.png";
+import fdPortfolioAnalysisImage from "../../assets/project-fd-portfolio-analysis.png";
+import fdPortfolioHoldingsImage from "../../assets/project-fd-portfolio-holdings.png";
+import fdPortfolioRebalanceImage from "../../assets/project-fd-portfolio-rebalance.png";
 import fdReportImage from "../../assets/project-fd-report.png";
 import fdReportEmailPreviewImage from "../../assets/project-fd-report-email-preview.png";
 import jobrightAutofillImage from "../../assets/project-jobright-autofill.png";
@@ -10,10 +13,10 @@ import jobrightResumeEnhanceImage from "../../assets/project-jobright-resume enh
 export const projectDisplayMeta = {
   "citygis-tianmu": {
     company: "CityGIS",
-    title: "Tianmu Business Platform",
+    title: "天目西路街道营商平台",
     timeline: "Summer 2025",
-    role: "Frontend / Product",
-    org: "Urban Data",
+    role: "全栈开发",
+    org: "上海市测绘院",
     with: "CityGIS Team",
     summary: "A street-level business management platform for buildings, companies, population data, and investment metrics.",
     tags: ["GIS", "Dashboard", "Operations"],
@@ -21,10 +24,10 @@ export const projectDisplayMeta = {
   },
   "citygis-port": {
     company: "CityGIS",
-    title: "Smart Port Cloud",
+    title: "数智港航云平台",
     timeline: "Summer 2024",
-    role: "Frontend / Visualization",
-    org: "Port Operations",
+    role: "前端开发",
+    org: "智汇交港部门",
     with: "CityGIS Team",
     summary: "A visual command surface for port operation metrics, coastline management, and enterprise risk data.",
     tags: ["Port", "Risk", "Visualization"],
@@ -32,21 +35,21 @@ export const projectDisplayMeta = {
   },
   "fd-portfolio": {
     company: "FD Insurance",
-    title: "Portfolio Analysis",
+    title: "FOF模拟组合",
     timeline: "Spring 2026",
-    role: "Frontend Engineering",
-    org: "Investment Research",
+    role: "前端开发",
+    org: "信息技术部",
     with: "FD Product Team",
-    summary: "A fund portfolio analysis view for returns, drawdowns, time ranges, and annual indicators.",
-    tags: ["Finance", "Analytics", "Funds"],
+    summary: "面向投研与产品跟踪场景的前端管理平台，支持基金数据查看、组合模拟、策略图表与周报管理。",
+    tags: ["Vue 2", "ECharts", "Funds"],
     accent: "rose",
   },
   "fd-report": {
     company: "FD Insurance",
-    title: "Production Weekly Report",
+    title: "方德周报自动分发系统",
     timeline: "Spring 2026",
-    role: "Backend / Automation",
-    org: "Information Technology",
+    role: "全栈开发",
+    org: "信息技术部",
     with: "FastAPI / WeCom API",
     summary:
       "A backend service that locates weekly report files, parses Excel content, and distributes WeCom group notifications and emails.",
@@ -55,10 +58,10 @@ export const projectDisplayMeta = {
   },
   "fd-ops": {
     company: "FD Insurance",
-    title: "Research Ops Center",
+    title: "方德全平台概览",
     timeline: "Spring 2026",
-    role: "Product Engineering",
-    org: "Research Platform",
+    role: "全栈开发",
+    org: "信息技术部",
     with: "FD Product Team",
     summary: "A monitoring center for active users, core behaviors, and high-frequency feature usage.",
     tags: ["Metrics", "Users", "Operations"],
@@ -82,7 +85,7 @@ export const projectShowcases = [
     id: "citygis-tianmu",
     companyKey: "citygis",
     company: "上海城市地理信息系统发展有限公司",
-    title: "天目西路街道营商管理平台",
+    title: "天目西路街道营商平台",
     image: citygisTianmuImage,
     summary: "围绕街区楼宇、企业、人口和招商指标的信息驾驶舱。",
   },
@@ -98,15 +101,51 @@ export const projectShowcases = [
     id: "fd-portfolio",
     companyKey: "fd",
     company: "方德保险代理有限公司",
-    title: "模拟组合分析",
+    title: "FOF模拟组合",
     image: fdPortfolioImage,
-    summary: "基金组合收益、回撤、区间收益和年度指标分析页面。",
+    summary: "面向投研与产品跟踪场景的前端管理平台，支持基金数据查看、组合模拟、策略图表与周报管理。",
+    overview:
+      "这是一个基于 Vue 2 的投研管理类前端项目，主要围绕私募基金、产品跟踪、模拟组合和策略图表等业务模块展开。项目目标是把分散的基金数据、组合分析结果和策略图表集中到统一后台中，方便用户完成产品筛选、组合创建、收益分析、指标查看和内容管理等日常操作。",
+    problem:
+      "项目要解决的是投研数据查看与组合分析流程分散、页面交互复杂、数据展示维度较多的问题。前端需要在表格、图表、筛选器和详情页之间建立稳定清晰的操作路径。",
+    myWork: [
+      "参与产品跟踪与模拟组合模块的页面开发，包括组合创建、组合详情、收益曲线、区间收益和年度指标等功能。",
+      "处理组合创建后的数据刷新、日期格式兼容、接口异常兜底和详情页展示一致性问题。",
+      "对 simulationPortfolio 模块进行结构梳理，将大文件拆分为组件、mixins 和工具函数，提升代码可读性与后续维护效率。",
+    ],
+    keyFeatures: [
+      "模拟组合创建：支持按权重或金额配置基金产品，并根据输入生成投资计划。",
+      "组合详情分析：支持时间范围筛选，展示收益曲线、回撤、区间收益、年度指标和持仓相关数据。",
+      "策略与产品跟踪：包含私募基金详情、基金对比、策略图表、产品配置和周报管理等业务页面。",
+    ],
+    technicalDetails: [
+      "前端技术栈使用 Vue 2、Vue Router、Vuex、Element UI、Axios 和 ECharts。",
+      "图表展示基于 ECharts，页面中包含收益走势、回撤、区间收益等多维数据可视化。",
+      "接口请求通过统一 request 封装处理，模拟组合模块中对日期格式、空数据、并发请求失败等场景做了兼容。",
+    ],
+    outcome:
+      "项目形成了覆盖投研产品跟踪、组合模拟和策略图表管理的后台界面。通过模块拆分和数据兼容处理，提升了模拟组合功能的稳定性，也让后续维护和问题定位更清晰。",
+    detailImages: [
+      {
+        image: fdPortfolioAnalysisImage,
+        caption: "模拟组合详情页，展示收益曲线、动态回撤、区间收益和年度指标。",
+        wide: true,
+      },
+      {
+        image: fdPortfolioRebalanceImage,
+        caption: "模拟组合创建页，展示投入金额、再平衡规则和按权重配置产品的流程。",
+      },
+      {
+        image: fdPortfolioHoldingsImage,
+        caption: "持仓与交易记录视图，展示组合持仓、权重、收益和再平衡交易来源。",
+      },
+    ],
   },
   {
     id: "fd-report",
     companyKey: "fd",
     company: "方德保险代理有限公司",
-    title: "生产系统周报",
+    title: "方德周报自动分发系统",
     image: fdReportImage,
     summary: "一个用于自动定位周报文件、解析 Excel 内容，并通过企业微信完成群通知与邮件分发的后端服务。",
     overview:
@@ -146,7 +185,7 @@ export const projectShowcases = [
     id: "fd-ops",
     companyKey: "fd",
     company: "方德保险代理有限公司",
-    title: "投研运营中心",
+    title: "方德全平台概览",
     image: fdOpsImage,
     summary: "统一监测平台活跃用户、核心行为和高频功能使用情况。",
   },

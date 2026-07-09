@@ -51,7 +51,7 @@ function AboutHero({
       </div>
 
       <div ref={introRef} className="about-copy-card">
-        <p className="section-eyebrow">Hello</p>
+        <p className="section-eyebrow">Hello!</p>
         <h1>I'm Petals</h1>
         <p className="about-hero-meta">
           <span className="about-hero-meta-icon" aria-hidden="true">

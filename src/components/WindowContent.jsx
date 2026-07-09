@@ -1,8 +1,18 @@
+import { useRef } from "react";
 import { getProjectById, getProjectDisplayMeta, projectShowcases } from "../data/projectData";
+import citygisLogo from "../../assets/sticker-citygis.png";
+import fdLogo from "../../assets/sticker-fd.png";
+import jobrightAiLogo from "../../assets/sticker-jobrightai.png";
 import AboutMe from "./AboutMe";
 import CameraWindow from "./CameraWindow";
 import GalleryWindow from "./GalleryWindow";
 import IpodWindow from "./IpodWindow";
+
+const projectLogoByCompanyKey = {
+  citygis: citygisLogo,
+  fd: fdLogo,
+  jobright: jobrightAiLogo,
+};
 
 function WindowContent({
   id,
@@ -12,6 +22,8 @@ function WindowContent({
   musicPlayerActions,
   openProject,
 }) {
+  const projectBodyRef = useRef(null);
+
   if (id === "aboutWindow") {
     return (
       <AboutMe
@@ -37,6 +49,7 @@ function WindowContent({
   if (id === "projectsWindow") {
     const selectedProject = getProjectById(selectedProjectId);
     const selectedMeta = getProjectDisplayMeta(selectedProject);
+    const selectedLogo = projectLogoByCompanyKey[selectedProject.companyKey];
     const selectedProjectImages = selectedProject.images ?? [selectedProject.image];
     const detailSections = [
       { label: "Overview", body: selectedProject.overview, wide: true },
@@ -46,13 +59,27 @@ function WindowContent({
       { label: "Technical Details", items: selectedProject.technicalDetails },
       { label: "Outcome", body: selectedProject.outcome, wide: true },
     ].filter((section) => section.body || section.items?.length);
+    const scrollProjectToTop = () => {
+      window.requestAnimationFrame(() => {
+        projectBodyRef.current?.scrollTo({
+          top: 0,
+          behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+            ? "auto"
+            : "smooth",
+        });
+      });
+    };
+    const handleProjectCardClick = (projectId) => {
+      openProject?.(projectId, { resetScroll: false });
+      scrollProjectToTop();
+    };
 
     return (
-      <div className="window-body projects-body">
+      <div ref={projectBodyRef} className="window-body projects-body">
         <article className="project-detail-card" aria-label={`${selectedMeta.title} project details`}>
           <div className="project-detail-identity">
-            <span className={`project-mark project-mark-${selectedMeta.accent}`} aria-hidden="true">
-              {selectedMeta.company.slice(0, 1)}
+            <span className="project-mark" aria-hidden="true">
+              {selectedLogo ? <img src={selectedLogo} alt="" /> : selectedMeta.company.slice(0, 1)}
             </span>
             <h2>{selectedMeta.title}</h2>
           </div>
@@ -130,7 +157,7 @@ function WindowContent({
           {selectedProject.detailImages?.length ? (
             <div className="project-detail-media">
               {selectedProject.detailImages.map((item) => (
-                <figure key={item.caption ?? item.image}>
+                <figure className={item.wide ? "is-wide" : ""} key={item.caption ?? item.image}>
                   <img src={item.image} alt={item.caption ?? `${selectedMeta.title} detail`} />
                   {item.caption ? <figcaption>{item.caption}</figcaption> : null}
                 </figure>
@@ -151,7 +178,7 @@ function WindowContent({
                   project.id === selectedProject.id ? " is-active" : ""
                 }`}
                 type="button"
-                onClick={() => openProject?.(project.id)}
+                onClick={() => handleProjectCardClick(project.id)}
               >
                 <span
                   className={[
@@ -165,7 +192,7 @@ function WindowContent({
                     <img key={`${project.id}-${imageIndex}`} src={image} alt="" />
                   ))}
                   <span className="project-shot-pill">
-                    {meta.company} - {meta.timeline}
+                    {meta.title} - {meta.timeline}
                   </span>
                 </span>
                 <strong>{meta.title}</strong>
@@ -202,7 +229,7 @@ function WindowContent({
       <div className="window-body contact-body">
         <p>Open to frontend, product engineering, and AI tooling work.</p>
         <a href="mailto:2630376648@qq.com">2630376648@qq.com</a>
-        <a href="https://github.com/" target="_blank" rel="noreferrer">
+        <a href="https://github.com/peta1s" target="_blank" rel="noreferrer">
           GitHub
         </a>
         <a href="https://www.linkedin.com/" target="_blank" rel="noreferrer">

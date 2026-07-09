@@ -1,4 +1,4 @@
-import { useCallback, useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { experiences, movieItems, musicItems, navItems, techStack } from "../data/aboutData";
 import AboutHero from "./about/AboutHero";
 import AboutSidebar from "./about/AboutSidebar";
@@ -186,6 +186,60 @@ function AboutMe({ musicPlayer, onMusicAction, onOpenProject }) {
     window.addEventListener("resize", updateTextShape);
     return () => window.removeEventListener("resize", updateTextShape);
   }, [updateTextShape]);
+
+  useEffect(() => {
+    const container = contentRef.current;
+    const sections = navItems
+      .map((item) => sectionRefs.current[item.id])
+      .filter(Boolean);
+
+    if (!container || sections.length === 0) {
+      return undefined;
+    }
+
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (prefersReducedMotion || !("IntersectionObserver" in window)) {
+      sections.forEach((section) => section.classList.add("is-revealed"));
+      return undefined;
+    }
+
+    container.classList.add("has-section-reveal");
+
+    sections.forEach((section, index) => {
+      section.classList.add("is-section-reveal");
+      section.style.setProperty("--reveal-delay", `${Math.min(index * 55, 180)}ms`);
+    });
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) {
+            return;
+          }
+
+          entry.target.classList.add("is-revealed");
+          observer.unobserve(entry.target);
+        });
+      },
+      {
+        root: container,
+        rootMargin: "0px 0px -14% 0px",
+        threshold: 0.16,
+      },
+    );
+
+    sections.forEach((section) => observer.observe(section));
+
+    return () => {
+      observer.disconnect();
+      container.classList.remove("has-section-reveal");
+      sections.forEach((section) => {
+        section.classList.remove("is-section-reveal", "is-revealed");
+        section.style.removeProperty("--reveal-delay");
+      });
+    };
+  }, []);
 
   return (
     <div className="window-body about-body">

@@ -31,15 +31,29 @@ const PolaroidPhoto = forwardRef(function PolaroidPhoto(
         "--drag-y": `${offset.y}px`,
       }}
       aria-hidden={!isPrinting}
-      onAnimationEnd={onPrintEnd}
+      onAnimationEnd={(event) => {
+        if (event.target === event.currentTarget) {
+          onPrintEnd?.(event);
+        }
+      }}
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
       onPointerCancel={onPointerUp}
       onClick={(event) => event.stopPropagation()}
     >
-      <div className="printed-photo-image">
-        <img src={portraitImage} alt="" />
+      <div className="printed-photo-paper" aria-hidden="true">
+        <div className="printed-photo-top-padding" />
+        <div className="printed-photo-image-row">
+          <div className="printed-photo-side-padding" />
+          <div className="printed-photo-image">
+            <div className="printed-photo-placeholder" />
+            <img className="printed-photo-portrait" src={portraitImage} alt="" />
+            <div className="printed-photo-image-shadow" />
+            <div className="printed-photo-grain" />
+          </div>
+          <div className="printed-photo-side-padding" />
+        </div>
       </div>
     </div>
   );
